@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		@keyframes pingyi {
+			0% {
+				transform: translateX(0);
+			}
+
+			100% {
+				transform: translateX(500px);
+			}
+		}
+
+		#redBox {
+			background: red;
+			width: 100px;
+			height: 100px;
+		}
+
+		#greenBox {
+			background: green;
+			width: 100px;
+			height: 100px;
+			animation: pingyi 2000ms linear forwards;
+		}
+	</style>
+</head>
+<body>
+<div id="redBox"></div>
+<div id="greenBox"></div>
+<script type="text/javascript" src="aqueue.js"></script>
+<script type="text/javascript">
+	const aq = new Aqueue({
+		target: document.getElementById('redBox'),
+		value: [0, 500],
+		render: function(value, state) {
+			this.target.style.transform = `translateX(${ value }px)`
+		},
+		duration: 2000,
+	})
+	aq.play();
+</script>
+</body>
+</html>
