@@ -4,16 +4,6 @@
 	<meta charset="utf-8">
 	<title></title>
 	<style type="text/css">
-		@keyframes pingyi {
-			0% {
-				transform: translateX(0);
-			}
-
-			100% {
-				transform: translateX(500px);
-			}
-		}
-
 		#redBox {
 			background: red;
 			width: 100px;
@@ -24,24 +14,44 @@
 			background: green;
 			width: 100px;
 			height: 100px;
-			animation: pingyi 2000ms linear forwards;
 		}
 	</style>
 </head>
 <body>
 <div id="redBox"></div>
 <div id="greenBox"></div>
+<button id="start">START</button>
+<button id="end">END</button>
+<button id="stop">PAUSE</button>
+<button id="reset">RESET</button>
 <script type="text/javascript" src="aqueue.js"></script>
 <script type="text/javascript">
+	const el = (name) => document.querySelector(name);
+
 	const aq = new Aqueue({
 		target: document.getElementById('redBox'),
-		value: [0, 500],
+		value: Aqueue.path('M0 0L23 34L60 90Q32 46 23 12Q234 565 234 645Z'),
+		render: function(point, state) {
+			this.target.style.transform = `translate(${ point.x }px,${ point.y }px)`
+			console.log(`translate(${ point.x }px ${ point.y })px`)
+		},
+		timingFunction: 'easeOut',
+		duration: 7000,
+		onEnd: () =>  console.log('end! haha...'),
+		onPlay: () => console.log('begin!')
+	}).to({
+		target: el('#greenBox'),
+		value: [0, 300],
 		render: function(value, state) {
 			this.target.style.transform = `translateX(${ value }px)`
 		},
-		duration: 2000,
-	})
-	aq.play();
+	});
+
+
+	el('#start').onclick = () => aq.play();
+	el('#end').onclick = () => aq.end();
+	el('#stop').onclick = () => aq.stop()
+	el('#reset').onclick = () => aq.reset()
 </script>
 </body>
 </html>
