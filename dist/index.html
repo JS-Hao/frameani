@@ -27,23 +27,25 @@
 <script type="text/javascript" src="aqueue.js"></script>
 <script type="text/javascript">
 	const el = (name) => document.querySelector(name);
+	const redBox = el('#redBox');
+	const greenBox = el('#greenBox');
 
 	const aq = new Aqueue({
-		target: document.getElementById('redBox'),
-		value: Aqueue.path('M0 0L23 34L60 90Q32 46 23 12Q234 565 234 645Z'),
-		render: function(point, state) {
-			this.target.style.transform = `translate(${ point.x }px,${ point.y }px)`
-			console.log(`translate(${ point.x }px ${ point.y })px`)
+		value: [[0, 500], [0, 500]],
+		render: function(value1, value2) {
+			redBox.style.transform = `translate(${ value1 }px,${ value2 }px)`;
+			greenBox.style.transform = `translateY(${ value2 }px)`;
 		},
 		timingFunction: 'easeOut',
 		duration: 7000,
 		onEnd: () =>  console.log('end! haha...'),
 		onPlay: () => console.log('begin!')
-	}).to({
-		target: el('#greenBox'),
-		value: [0, 300],
-		render: function(value, state) {
-			this.target.style.transform = `translateX(${ value }px)`
+	})
+	.to({
+		value: [[500, 800], [0, 40], [503, 523]],
+		render: function(value1, value2, value3) {
+			redBox.style.transform = `translateX(${ value1 }px)`;
+			greenBox.style.transform = `translate(${ value2 }px,${ value3 }px)`;
 		},
 	});
 

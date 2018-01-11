@@ -183,10 +183,6 @@ var Core = function () {
 		value: function _init(opt) {
 			this.target = opt.target;
 			this._initValue(opt.value);
-			// this.value = {
-			// 	start: opt.value[0],
-			// 	end: opt.value[1],
-			// };
 			this.duration = opt.duration || 1000;
 			this.timingFunction = opt.timingFunction || 'linear';
 			this.renderFunction = opt.render || this._defaultFunc;
@@ -200,19 +196,44 @@ var Core = function () {
 	}, {
 		key: '_initValue',
 		value: function _initValue(value) {
+			this.value = [];
 			if (Array.isArray(value)) {
-				this.value = {
-					start: value[0],
-					end: value[1]
-				};
-				this.svg = null;
+				Array.isArray(value[0]) ? this._initMutipleValue(value) : this._initSimgleValue(value);
 			} else if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.type === 'path') {
-				this.value = {
-					start: 0,
-					end: value.svg.getTotalLength()
-				};
-				this.svg = value.svg;
+				this._initPathValue(value);
 			}
+		}
+	}, {
+		key: '_initPathValue',
+		value: function _initPathValue(value) {
+			this.value.push({
+				start: 0,
+				end: value.svg.getTotalLength(),
+				type: 'path',
+				svg: value.svg
+			});
+		}
+	}, {
+		key: '_initSimgleValue',
+		value: function _initSimgleValue(value) {
+			this.value.push({
+				start: parseFloat(value[0]),
+				end: parseFloat(value[1]),
+				type: 'simgle'
+			});
+		}
+	}, {
+		key: '_initMutipleValue',
+		value: function _initMutipleValue(values) {
+			var _this = this;
+
+			values.forEach(function (value) {
+				_this.value.push({
+					start: parseFloat(value[0]),
+					end: parseFloat(value[1]),
+					type: 'mutiple'
+				});
+			});
 		}
 	}, {
 		key: '_defaultFunc',
@@ -222,52 +243,43 @@ var Core = function () {
 	}, {
 		key: '_renderEndState',
 		value: function _renderEndState() {
-			var b = this.value.start,
-			    c = this.value.end - b,
-			    d = this.duration,
+			var d = this.duration,
 			    func = _easing2.default[this.timingFunction] || _easing2.default['linear'];
-			this._renderFunction(func(d, b, c, d));
+			this._renderFunction(d, d, func);
 		}
 	}, {
 		key: '_renderInitState',
 		value: function _renderInitState() {
-			var b = this.value.start,
-			    c = this.value.end - b,
-			    d = this.duration,
+			var d = this.duration,
 			    func = _easing2.default[this.timingFunction] || _easing2.default['linear'];
-			this._renderFunction(func(0, b, c, d));
+			this._renderFunction(0, d, func);
 		}
 	}, {
 		key: '_loop',
 		value: function _loop() {
 			var t = Date.now() - this.beginTime,
-			    b = this.value.start,
-			    c = this.value.end - b,
 			    d = this.duration,
 			    func = _easing2.default[this.timingFunction] || _easing2.default['linear'];
 
 			if (this.state === 'end' || t >= d) {
 				this._end();
 			} else if (this.state === 'stop') {
-				this._renderFunction(func(t, b, c, d));
+				this._renderFunction(t, d, func);
 			} else if (this.state === 'init') {
 				this._renderInitState();
-			} else if (t >= d) {
-				this._end();
 			} else {
-				this._renderFunction(func(t, b, c, d));
+				this._renderFunction(t, d, func);
 				window.requestAnimationFrame(this._loop.bind(this));
 			}
 		}
 	}, {
 		key: '_renderFunction',
-		value: function _renderFunction(curValue) {
-			if (this.svg) {
-				var point = this.svg.getPointAtLength(curValue);
-				this.renderFunction(point, curValue);
-			} else {
-				this.renderFunction(curValue);
-			}
+		value: function _renderFunction(t, d, func) {
+			var values = this.value.map(function (value) {
+				var curValue = func(t, value.start, value.end - value.start, d);
+				return value.type === 'path' ? value.svg.getPointAtLength(curValue) : curValue;
+			});
+			this.renderFunction.apply(this, values);
 		}
 	}, {
 		key: '_play',
