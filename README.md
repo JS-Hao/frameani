@@ -21,16 +21,17 @@ aqueue.js是一款自由度很高的动画库，它从具体的动画实现中�
 
 
 
+
 ## 快速开始
 
 ```javascript
+const ele = document.querySelector('#target');
 const aq = new Aqueue({
-  target: document.getElementById('target'), 
   value: [0, 500], 
   duration: 1000,
   timingFunction: 'easeOut', 
   render: function(value) {
-    this.target.style.transform = `translateX(${ value }px)`;
+    ele.style.transform = `translateX(${ value }px)`;
   }, 
   onPlay: () => console.log('begin!'),
   onEnd: () =>  console.log('end! haha...')
@@ -42,18 +43,59 @@ aq.play();
 参数设定如下：
 
 * ```target```  可选 / 对象 / 动画目标
-* ```value```  必选 / 数组 / 动画的起始、终点值
 * ```duration```  可选 / 数值 / 总时长，默认值为1000ms
 * ```timingFunction```  可选 / 数值 / 缓动函数，默认为linear
 * ```render```  必选 / 函数 / 渲染函数，参数为当前时间进度对应的运动值
 * 各类事件 可选 / 函数 / 回调函数
 
 
+注意，```value```是一个特殊的参数，它定义了动画的起始与终止两种状态，而aqueue会根据用户所提供的速度函数，计算出当前时间进度所对用的运动中间状态，以```render```参数的形式返回。
+
+例如，创建一个总时长为**3s**、往右平移**300px**的**匀速**位移动画，当时间经历到2s时，返回的值是200
+
+* 当value是一个长度为2的一元数组时，第一项代表起始值，第二项代表终止值
+
+  ```javascript
+  // 元素向右平移300px
+  const aq = new Aqueue({
+    value: [0, 300],
+    duration: 1000,
+    render: function(value) {
+      ele.style.transform = `translateX(${ value }px)`;
+    }
+  })
+  ```
+
+* 当value是一个二元数组时（每一项均为一个长度为2的数组），aqueue会分别计算出每一个项所对应的当前时间进度运动中间状态（二元数组的长度无要求，可无限拓展）
+
+  ```Javascript
+  // 元素分别向右、向下平移300px、500px
+  const aq = new Aqueue({
+    value: [[0, 300], [0, 500]],
+    duration: 1000,
+    render: function(value1, value2) {
+      ele.style.transform = `translate(${ value1 }px, ${ value2 }px)`;
+    }
+  })
+  ```
+
+* 当value是由```Aqueue.path```所构建的路径对象时，aqueue会计算当前时间进度对应路径上的某一点，实现自定义路径动画
+
+  ```javascript
+  const aq = new Aqueue({
+    value: Aqueue.path('M0 0L23 34L60 90Q32 46 23 12Q234 565 234 645Z'),
+    duration: 1000,
+    render: function(value1, value2) {
+      ele.style.transform = `translate(${ value1 }px, ${ value2 }px)`;
+    }
+  })
+  ```
 
 
-## 方法
 
-### To
+
+
+## 链式执行
 
 倘若你想在某个动画执行完毕时触发下一个动画，可使用```to```方法（```to```方法可多次链式调用）
 
@@ -78,40 +120,6 @@ aq.play();
 ```
 
 
-
-
-### Combine
-
-多个动画可通过```combine```方法合并，多组动画将同时播放
-
-待更新...
-
-
-
-
-### timeline
-
-aqueue提供了一个与css animation很类似的写法: ```timeline```，通过```timeline```我们可以定义目标在不同的进度触发不同的动画
-
-待更新...
-
-
-
-
-### udpate
-
-```update```方法可更新你的动画属性
-
-待更新...
-
-
-
-
-### **add & delete**
-
-aqueue之所以能够执行一系列的动画（如上述通过```combine```，```to```方法所串联的动画），是因为aqueue内部存在着动画队列```queue```（实际上可以理解成一个按顺序存放着所有动画实例的数组，每个动画实例依次播放），为了更灵活的管理这个队列，可以通过```add```和```delete```方法增添或删除指定的动画
-
-待更新...
 
 
 
