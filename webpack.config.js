@@ -18,7 +18,6 @@ module.exports = {
         }]
     },
     plugins: [
-        new webpack.BannerPlugin('Develop by 1kg'),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin()
     ]

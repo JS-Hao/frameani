@@ -1,4 +1,4 @@
-import easing from './easing';
+import Tween from './tween';
 
 export default class Core {
     constructor(opt) {
@@ -63,20 +63,20 @@ export default class Core {
 
     _renderEndState() {
         const d = this.duration,
-            func = easing[this.timingFunction] || easing['linear'];
+            func = Tween[this.timingFunction] || Tween['linear'];
         this._renderFunction(d, d, func);
     }
 
     _renderInitState() {
         const d = this.duration,
-            func = easing[this.timingFunction] || easing['linear'];
+            func = Tween[this.timingFunction] || Tween['linear'];
         this._renderFunction(0, d, func);
     }
 
     _loop() {
         const t = Date.now() - this.beginTime,
             d = this.duration,
-            func = easing[this.timingFunction] || easing['linear'];
+            func = Tween[this.timingFunction] || Tween['linear'];
 
         if (this.state === 'end' || t >= d) {
             this._end();
