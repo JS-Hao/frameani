@@ -41,13 +41,13 @@
     <button id="stop">PAUSE</button>
     <button id="reset">RESET</button>
 
-    <script type="text/javascript" src="aqueue.min.js"></script>
+    <script type="text/javascript" src="timeline.min.js"></script>
     <script type="text/javascript">
         const el = (name) => document.querySelector(name);
         const box1 = el('#box1');
         const box2 = el('#box2');
 
-        const aq = new Aqueue({
+        const timeline = new Timeline({
                 value: [
                     [0, 500],
                     [0, 500]
@@ -74,10 +74,10 @@
             });
 
 
-        el('#start').onclick = () => aq.play();
-        el('#end').onclick = () => aq.end();
-        el('#stop').onclick = () => aq.stop()
-        el('#reset').onclick = () => aq.reset()
+        el('#start').onclick = () => timeline.play();
+        el('#end').onclick = () => timeline.end();
+        el('#stop').onclick = () => timeline.stop()
+        el('#reset').onclick = () => timeline.reset()
     </script>
 </body>
 

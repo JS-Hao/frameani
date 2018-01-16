@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = {
     entry: './src/index.js',
     output: {
-        filename: 'aqueue.min.js',
+        filename: 'timeline.min.js',
         path: path.resolve(__dirname, 'dist')
     },
     module: {

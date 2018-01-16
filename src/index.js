@@ -1,6 +1,6 @@
 import Core from './core';
 
-class Aqueue {
+class Timeline {
     constructor(opt) {
         this.queue = [new Core(opt)];
     }
@@ -43,9 +43,9 @@ class Aqueue {
     }
 }
 
-window.Aqueue = Aqueue;
+window.Timeline = Timeline;
 
-Aqueue.path = function (path) {
+Timeline.path = function (path) {
     const pathSVG = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     pathSVG.setAttributeNS(null, 'd', path);
 

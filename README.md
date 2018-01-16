@@ -1,22 +1,27 @@
-# aqueue.js
+# timeline.js
 
-aqueue.js是一款自由度很高的动画库，它从具体的动画实现中抽离出来，根据给定的动画速度曲线，替你完成“帧-值”对应的数值计算，而将实际的渲染工作交给开发者自由发挥。此外，它还提供了一系列方法为你更好地组织、管理动画队列，协助你制作更为复杂的动画，甚至是实现多个动画的组合。
+timeline.js is a high degree of freedom animation library pulled from the concrete realization of the animation. According to the given animation speed curve, it help you to complete the "frame-value" numerical calculation, and how to achieve the animation is decided by developers freely. 
+
+In addition, it also provides a series of methods for you to better organize and manage the animation queue, help you to make more complex animations, or even to achieve a combination of multiple animation.
+
+
 
 ## Feature
 
-* 自由度高。它根据给定的动画速度曲线，完成“帧-值”对应的数值计算，而将实际的渲染工作交给开发者自由发挥
-* 支持基本的事件监听，如```onPlay```、```onStop```、```onReset ```、```onEnd```，及相应的回调函数
-* 支持主动触发动画的各种状态，如```play```、```stop```、```reset```、```end```
-* 支持自定义路径动画
-* 支持多组动画的合并、链式触发
-* 暂时许多功能仍处于待更新状态，对应详情可查看 [react-rekanva](https://github.com/JS-Hao/react-rekanva)
+* Hign degree of freedom. it help you to complete the "frame-value" numerical calculation according to the given animation speed curve, developers can decide how to achieve the animation freely. 
+* Support for basic event listening. such as ```onPlay```、```onStop```、```onReset ```、```onEnd```
+* Support the active trigger animation of the various states, such as ```play```、```stop```、```reset```、```end```
+* Support custom path animation
+* Support trigger multiple animation sequentially
 
 
-## 快速开始
+
+
+## Quick start
 
 ```javascript
 const ele = document.querySelector('#target');
-const aq = new Aqueue({
+const timeline = new Timeline({
   value: [0, 500], 
   duration: 1000,
   timingFunction: 'easeOut', 
@@ -27,27 +32,38 @@ const aq = new Aqueue({
   onEnd: () =>  console.log('end! haha...')
 });
 
-aq.play();
+timeline.play();
 ```
 
-参数设定如下：
+The parameters are set as follows:
 
-* ```target```  可选 / 对象 / 动画目标
-* ```duration```  可选 / 数值 / 总时长，默认值为1000ms
-* ```timingFunction```  可选 / 数值 / 缓动函数，默认为linear
-* ```render```  必选 / 函数 / 渲染函数，参数为当前时间进度对应的运动值
-* 各类事件 可选 / 函数 / 回调函数
+* ```target```  
+  optional / object / animation target
+
+* ```duration```  
+  optional / number / total time，the default is 1000ms
+
+* ```timingFunction```  
+  optional / string / ease function，the default is linear
+
+* ```render```
+  required / function / render function，the parameter is the motion value corresponding to the current time progress
+
+* various events
+  optional / function / callback
+
+  ​
 
 
-注意，```value```是一个特殊的参数，它定义了动画的起始与终止两种状态，而aqueue会根据用户所提供的速度函数，计算出当前时间进度所对用的运动中间状态，以```render```参数的形式返回。
+Note that the ```value``` is a special parameter that defines both the start and end of the animation, timeline will calculate the current value of current time progress, and return it as a parameter of the render function.
 
-例如，创建一个总时长为**3s**、往右平移**300px**的**匀速**位移动画，当时间经历到2s时，返回的值是200
+For example, to let the element pan right 300px within 3s in a steady state, when it reaches 2 seconds, the returned value is 200.
 
-* 当value是一个长度为2的一元数组时，第一项代表起始值，第二项代表终止值
+* When value is a unary array of length 2, the first is the starting value, and the second is the ending value
 
   ```javascript
-  // 元素向右平移300px
-  const aq = new Aqueue({
+  // the element is panned 300px to the right
+  const timeline = new Timeline({
     value: [0, 300],
     duration: 1000,
     render: function(value) {
@@ -56,11 +72,11 @@ aq.play();
   })
   ```
 
-* 当value是一个二元数组时（每一项均为一个长度为2的数组），aqueue会分别计算出每一个项所对应的当前时间进度运动中间状态（二元数组的长度无要求，可无限拓展）
+* When value is a binary array（each one is an array of length 2），timeline will calculate the current value of current time progress for each one (the length of the binary array can be infinitely expanded)
 
   ```Javascript
-  // 元素分别向右、向下平移300px、500px
-  const aq = new Aqueue({
+  // the element is panned 300px and 500px to the right and down respectively.
+  const timeline = new Timeline({
     value: [[0, 300], [0, 500]],
     duration: 1000,
     render: function(value1, value2) {
@@ -69,11 +85,11 @@ aq.play();
   })
   ```
 
-* 当value是由```Aqueue.path```所构建的路径对象时，aqueue会计算当前时间进度对应路径上的某一点，实现自定义路径动画
+* When value is a "path object" constructed by ```Timeline.path```, timeline will get the current point from the given path of current time progress, to achieve coustom path animation.
 
   ```javascript
-  const aq = new Aqueue({
-    value: Aqueue.path('M0 0L23 34L60 90Q32 46 23 12Q234 565 234 645Z'),
+  const timeline = new Timeline({
+    value: Timeline.path('M0 0L23 34L60 90Q32 46 23 12Q234 565 234 645Z'),
     duration: 1000,
     render: function(value1, value2) {
       ele.style.transform = `translate(${ value1 }px, ${ value2 }px)`;
@@ -81,12 +97,14 @@ aq.play();
   })
   ```
 
-## 链式执行
 
-倘若你想在某个动画执行完毕时触发下一个动画，可使用```to```方法（```to```方法可多次链式调用）
+
+## To
+
+If you want to trigger the next animation when an animation is finished，can use ```to``` method. And it support the chained calls.
 
 ```javascript
-const aq = new Aqueue({
+const timeline = new Timeline({
   target: document.getElementById('target1'), 
   value: [0, 500], 
   duration: 1000, 
@@ -102,33 +120,37 @@ const aq = new Aqueue({
   },
 });
 
-aq.play();
+timeline.play();
 ```
 
-## **自定义路径动画**
 
-```Aqueue.path```方法可帮助你实现更为复杂的路径动画
+
+## Custom path animation
+
+```Timeline.path``` can help you to achieve the more complex path animation.
 
 ```javascript
-const aq = new Aqueue({
+const timeline = new Timeline({
   target: document.getElementById('target'),
   value: Aqueue.path('M0 0L23 34L60 90Q32 46 23 12Q234 565 234 645Z'),
-  render: function(point, value) {
+  render: function(point) {
     this.target.style.transform = `translate(${ point.x }px,${ point.y }px)`
   },
   timingFunction: 'easeOut',
   duration: 7000,
 })
 
-aq.play();
+timeline.play();
 ```
 
-注意，此时```render```函数的传参发生了变化：```point```记录着当前时间进度对应的点坐标，```value```则是当前时间进度对应的路径长度。
+Notice that the parameter of the render function has changed: the ```point``` is an object and it save the coordinates of the current point.
 
 
-## 事件
 
-Aqueue支持```onPlay```, ```onReset```, ```onStop```以及```onEnd```事件，你只需要将这些事件函数传入动画配置即可：
+
+## Events
+
+timeline support the events of ```onPlay```, ```onReset```, ```onStop``` and ```onEnd```, the one thing you should do is pass them into the animation configuration:
 
 ```javascript
 const aq = new Aqueue({
@@ -146,11 +168,15 @@ const aq = new Aqueue({
 });
 ```
 
-除此之外，react-rekanva还允许你手动触发以下事件：
+In addition, timline also allows you to manually trigger the following events:
 
-- ```play```          动画开始执行；
-- ```reset```         重置动画（通过```to```, ```combine```方法添加的所有动画队列也将全部重置）;
-- ```stop```          暂停动画（通过```to```, ```combine```方法添加的所有动画队列也将全部停止）;
-- ```end```           结束所有的动画（通过```to```, ```combine```方法添加的所有动画队列也将全部结束）;            
+- ```play```         
+  Animation begins execution
+- ```reset```        
+  Reset the animation.
+- ```stop```          
+  Stop the animation
+- ```end```           
+  End the animation           
 
-注意，```reset```、```stop```和```end```发生时，通过```to```, ```combine```方法添加的、保存在队列```queue```中的所有动画也将全部重置 / 暂停 / 结束。         
+Notice that, when the ```reset```、```stop```和```end``` is called, all animations saved in the queue, added via the ```to```, will also be reset / paused / ended.   
