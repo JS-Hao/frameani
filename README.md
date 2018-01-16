@@ -179,4 +179,4 @@ In addition, timline also allows you to manually trigger the following events:
 - ```end```           
   End the animation           
 
-Notice that, when the ```reset```、```stop```和```end``` is called, all animations saved in the queue, added via the ```to```, will also be reset / paused / ended.   
+Notice that, when the ```reset```, ```stop```和```end``` is called, all animations saved in the queue, added via the ```to```, will also be reset / paused / ended.   
