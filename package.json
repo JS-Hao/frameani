@@ -1,8 +1,8 @@
 {
-  "name": "aqueue",
+  "name": "timeline",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/aqueue.js",
+  "main": "dist/timeline.min.js",
   "scripts": {
     "dev": "webpack-dev-server --devtool eval-source-map --progress --colors --hot --inline --content-base ./dist",
     "build": "webpack --progress --colors",
