@@ -4,7 +4,6 @@ export default class Core {
     constructor(opt) {
         this._init(opt);
         this.state = 'init';
-        this.requestAnimationFrame = window.requestAnimationFrame;
     }
 
     _init(opt) {
@@ -73,6 +72,12 @@ export default class Core {
         this._renderFunction(0, d, func);
     }
 
+    _renderStopState(t) {
+        const d = this.duration,
+            func = Tween[this.timingFunction] || Tween['linear'];
+        this._renderFunction(t, d, func);
+    }
+
     _loop() {
         const t = Date.now() - this.beginTime,
             d = this.duration,
@@ -81,9 +86,9 @@ export default class Core {
         if (this.state === 'end' || t >= d) {
             this._end();
         } else if (this.state === 'stop') {
-            this._renderFunction(t, d, func);
+            this._stop(t);
         } else if (this.state === 'init') {
-            this._renderInitState();
+            this._reset();
         } else {
             this._renderFunction(t, d, func)
             window.requestAnimationFrame(this._loop.bind(this));
@@ -113,13 +118,15 @@ export default class Core {
         this.onEnd && this.onEnd.call(this);
     }
 
-    _stop() {
+    _stop(t) {
         this.state = 'stop';
+        this._renderStopState(t);
         this.onStop && this.onStop.call(this);
     }
 
     _reset() {
         this.state = 'init';
+        this._renderInitState();
         this.onReset && this.onReset.call(this);
     }
 
@@ -128,16 +135,19 @@ export default class Core {
     }
 
     end() {
-        this._end();
-        this._renderEndState();
+        this.state === 'play' ? (this.state = 'end') : this._end();
     }
 
     stop() {
-        this._stop();
+        if (this.state === 'play') {
+            this.state = 'stop';
+        } else {
+            this.state = 'stop';
+            this.onStop && this.onStop();
+        }
     }
 
     reset() {
-        this._reset();
-        this._renderInitState();
+        this.state === 'play' ? (this.state = 'init') : this._reset();
     }
 }

@@ -38,7 +38,7 @@
 
     <button id="start">START</button>
     <button id="end">END</button>
-    <button id="stop">PAUSE</button>
+    <button id="stop">STOP</button>
     <button id="reset">RESET</button>
 
     <script type="text/javascript" src="timeline.min.js"></script>
@@ -56,10 +56,12 @@
                     box1.style.transform = `translate(${ value1 }px,${ value2 }px)`;
                     box2.style.transform = `translateY(${ value2 }px)`;
                 },
-                timingFunction: 'easeInElastic',
+                timingFunction: 'easeOut',
                 duration: 7000,
-                onEnd: () => console.log('end! haha...'),
-                onPlay: () => console.log('begin!')
+                onEnd: () => console.log('end'),
+                onPlay: () => console.log('begin'),
+                onReset: () => console.log('reset'),
+                onStop: () => console.log('stop')
             })
             .to({
                 value: [

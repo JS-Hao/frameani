@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#box {
+			width: 100px;
+			height: 100px;
+			background: green;
+		}
+	</style>
+</head>
+<body>
+<div id="box"></div>
+<script type="text/javascript" src="timeline.min.js"></script>
+<script type="text/javascript">
+	const box = document.querySelector('#box');
+	const timeline = new Timeline({
+		duration: 3000,
+		value: [[0, 400], [0, 600]],
+		render: function(value1, value2) {
+			box.style.transform = `translate(${ value1 }px, ${ value2 }px)`;
+		},
+		timingFunction: 'easeOut',
+		onPlay: () => console.log('play')
+	})
+	timeline.play();
+</script>
+</body>
+</html>
