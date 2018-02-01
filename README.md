@@ -4,7 +4,7 @@ timeline.js is a high degree of freedom animation library pulled from the concre
 
 In addition, it also provides a series of methods for you to better organize and manage the animation queue, help you to make more complex animations, or even to achieve a combination of multiple animation.
 
-
+  ​
 
 ## Feature
 
@@ -14,8 +14,7 @@ In addition, it also provides a series of methods for you to better organize and
 * Support custom path animation
 * Support trigger multiple animation sequentially
 
-
-
+  ​
 
 ## Quick start
 
@@ -36,9 +35,6 @@ timeline.play();
 ```
 
 The parameters are set as follows:
-
-* ```target```  
-  optional / object / animation target
 
 * ```duration```  
   optional / number / total time，the default is 1000ms
@@ -97,33 +93,34 @@ For example, to let the element pan right 300px within 3s in a steady state, whe
   })
   ```
 
-
+  ​
 
 ## To
 
 If you want to trigger the next animation when an animation is finished，can use ```to``` method. And it support the chained calls.
 
 ```javascript
+const ele1 = document.getElementById('target1');
+const ele2 = document.getElementById('target2');
 const timeline = new Timeline({
   target: document.getElementById('target1'), 
   value: [0, 500], 
   duration: 1000, 
   timingFunction: 'easeOut',
   render: function(value) {
-    this.target.style.transform = `translateX(${ value }px)`;
+    ele1.style.transform = `translateX(${ value }px)`;
   }, 
 }).to({
   target: document.getElementById('target2'),
   value: [-100, 300],
   render: function(value) {
-    this.target.style.transform = `translateX(${ value }px)`;
+    ele2.style.transform = `translateX(${ value }px)`;
   },
 });
 
 timeline.play();
 ```
-
-
+  ​
 
 ## Custom path animation
 
@@ -131,10 +128,9 @@ timeline.play();
 
 ```javascript
 const timeline = new Timeline({
-  target: document.getElementById('target'),
   value: Aqueue.path('M0 0L23 34L60 90Q32 46 23 12Q234 565 234 645Z'),
   render: function(point) {
-    this.target.style.transform = `translate(${ point.x }px,${ point.y }px)`
+    ele.style.transform = `translate(${ point.x }px,${ point.y }px)`
   },
   timingFunction: 'easeOut',
   duration: 7000,
@@ -145,8 +141,7 @@ timeline.play();
 
 Notice that the parameter of the render function has changed: the ```point``` is an object and it save the coordinates of the current point.
 
-
-
+  ​
 
 ## Events
 
@@ -154,12 +149,11 @@ timeline support the events of ```onPlay```, ```onReset```, ```onStop``` and ```
 
 ```javascript
 const aq = new Aqueue({
-  target: document.getElementById('target'), 
   value: [0, 500], 
   duration: 1000,
   timingFunction: 'easeOut', 
   render: function(value) {
-    this.target.style.transform = `translateX(${ value }px)`;
+    ele.style.transform = `translateX(${ value }px)`;
   }, 
   onPlay: () => console.log('begin!'),
   onEnd: () =>  console.log('end! haha...'),
