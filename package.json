@@ -1,6 +1,6 @@
 {
-  "name": "timeline",
-  "version": "0.0.1",
+  "name": "frameAni",
+  "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {

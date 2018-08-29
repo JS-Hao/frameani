@@ -4,7 +4,7 @@ const webpack = require("webpack");
 module.exports = {
     entry: "./src/index.js",
     output: {
-        filename: "timeline.min.js",
+        filename: "frameAni.min.js",
         path: path.resolve(__dirname, "dist"),
         libraryTarget: "umd"
     },
@@ -26,7 +26,7 @@ module.exports = {
         port: 9000
     },
     plugins: [
-        new webpack.optimize.OccurrenceOrderPlugin()
+        new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin()
     ]
 };

@@ -1,7 +1,7 @@
 import "./polyfill";
 import Core from "./core";
 
-class Timeline {
+class FrameAni {
     constructor(opt) {
         this.queue = [new Core(opt)];
     }
@@ -45,7 +45,7 @@ class Timeline {
     }
 }
 
-Timeline.path = function(path) {
+FrameAni.path = function(path) {
     const pathSVG = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "path"
@@ -58,5 +58,5 @@ Timeline.path = function(path) {
     };
 };
 
-export default Timeline;
-export { Timeline };
+export default FrameAni;
+export { FrameAni };

@@ -41,13 +41,13 @@
     <button id="stop">STOP</button>
     <button id="reset">RESET</button>
 
-    <script type="text/javascript" src="timeline.min.js"></script>
+    <script type="text/javascript" src="frameAni.min.js"></script>
     <script type="text/javascript">
         const el = (name) => document.querySelector(name);
         const box1 = el('#box1');
         const box2 = el('#box2');
 
-        const timeline = new Timeline({
+        const frameAni = new FrameAni({
                 value: [
                     [0, 500],
                     [0, 500]
@@ -76,10 +76,10 @@
             });
 
 
-        el('#start').onclick = () => timeline.play();
-        el('#end').onclick = () => timeline.end();
-        el('#stop').onclick = () => timeline.stop()
-        el('#reset').onclick = () => timeline.reset()
+        el('#start').onclick = () => frameAni.play();
+        el('#end').onclick = () => frameAni.end();
+        el('#stop').onclick = () => frameAni.stop()
+        el('#reset').onclick = () => frameAni.reset()
     </script>
 </body>
 
