@@ -1,3 +1,4 @@
+import './polyfill';
 import Core from './core';
 
 class Timeline {
@@ -18,9 +19,10 @@ class Timeline {
                 core.onEnd = () => {
                     callback && callback();
                     queue[index + 1].play();
-                }
+                    core.onEnd = callback;
+                };
             }
-        })
+        });
         this.queue.length && this.queue[0].play();
     }
 
@@ -33,24 +35,27 @@ class Timeline {
     stop() {
         this.queue.map(core => {
             core.stop();
-        })
+        });
     }
 
     end() {
         this.queue.map(core => {
-            core.end();
-        })
+            core._end();
+        });
     }
 }
 
-window.Timeline = Timeline;
-
-Timeline.path = function (path) {
-    const pathSVG = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+Timeline.path = function(path) {
+    const pathSVG = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'path',
+    );
     pathSVG.setAttributeNS(null, 'd', path);
 
     return {
         svg: pathSVG,
-        type: 'path'
-    }
-}
+        type: 'path',
+    };
+};
+
+export default Timeline;
