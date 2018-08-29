@@ -1,5 +1,5 @@
-import './polyfill';
-import Core from './core';
+import "./polyfill";
+import Core from "./core";
 
 class Timeline {
     constructor(opt) {
@@ -47,15 +47,16 @@ class Timeline {
 
 Timeline.path = function(path) {
     const pathSVG = document.createElementNS(
-        'http://www.w3.org/2000/svg',
-        'path',
+        "http://www.w3.org/2000/svg",
+        "path"
     );
-    pathSVG.setAttributeNS(null, 'd', path);
+    pathSVG.setAttributeNS(null, "d", path);
 
     return {
         svg: pathSVG,
-        type: 'path',
+        type: "path"
     };
 };
 
 export default Timeline;
+export { Timeline };

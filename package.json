@@ -2,7 +2,7 @@
   "name": "timeline",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/timeline.min.js",
+  "main": "src/index.js",
   "scripts": {
     "dev": "webpack-dev-server --devtool eval-source-map --progress --colors --hot --inline --content-base ./dist",
     "build": "webpack --progress --colors",
