@@ -1,16 +1,16 @@
-import Tween from './tween';
+import Tween from "./tween";
 
 export default class Core {
     constructor(opt) {
         this._init(opt);
-        this.state = 'init';
+        this.state = "init";
     }
 
     _init(opt) {
         this.target = opt.target;
         this._initValue(opt.value);
         this.duration = opt.duration || 1000;
-        this.timingFunction = opt.timingFunction || 'linear';
+        this.timingFunction = opt.timingFunction || "linear";
         this.renderFunction = opt.render || this._defaultFunc;
 
         /* Events */
@@ -23,8 +23,10 @@ export default class Core {
     _initValue(value) {
         this.value = [];
         if (Array.isArray(value)) {
-            Array.isArray(value[0]) ? this._initMutipleValue(value) : this._initSimgleValue(value);
-        } else if (typeof value === 'object' && value.type === 'path') {
+            Array.isArray(value[0])
+                ? this._initMutipleValue(value)
+                : this._initSimgleValue(value);
+        } else if (typeof value === "object" && value.type === "path") {
             this._initPathValue(value);
         }
     }
@@ -33,17 +35,17 @@ export default class Core {
         this.value.push({
             start: 0,
             end: value.svg.getTotalLength(),
-            type: 'path',
-            svg: value.svg,
-        })
+            type: "path",
+            svg: value.svg
+        });
     }
 
     _initSimgleValue(value) {
         this.value.push({
             start: parseFloat(value[0]),
             end: parseFloat(value[1]),
-            type: 'simgle',
-        })
+            type: "simgle"
+        });
     }
 
     _initMutipleValue(values) {
@@ -51,46 +53,46 @@ export default class Core {
             this.value.push({
                 start: parseFloat(value[0]),
                 end: parseFloat(value[1]),
-                type: 'mutiple',
-            })
-        })
+                type: "mutiple"
+            });
+        });
     }
 
     _defaultFunc() {
-        console.warn('no render function!')
+        console.warn("no render function!");
     }
 
     _renderEndState() {
         const d = this.duration,
-            func = Tween[this.timingFunction] || Tween['linear'];
+            func = Tween[this.timingFunction] || Tween["linear"];
         this._renderFunction(d, d, func);
     }
 
     _renderInitState() {
         const d = this.duration,
-            func = Tween[this.timingFunction] || Tween['linear'];
+            func = Tween[this.timingFunction] || Tween["linear"];
         this._renderFunction(0, d, func);
     }
 
     _renderStopState(t) {
         const d = this.duration,
-            func = Tween[this.timingFunction] || Tween['linear'];
+            func = Tween[this.timingFunction] || Tween["linear"];
         this._renderFunction(t, d, func);
     }
 
     _loop() {
         const t = Date.now() - this.beginTime,
             d = this.duration,
-            func = Tween[this.timingFunction] || Tween['linear'];
+            func = Tween[this.timingFunction] || Tween["linear"];
 
-        if (this.state === 'end' || t >= d) {
+        if (this.state === "end" || t >= d) {
             this._end();
-        } else if (this.state === 'stop') {
+        } else if (this.state === "stop") {
             this._stop(t);
-        } else if (this.state === 'init') {
+        } else if (this.state === "init") {
             this._reset();
         } else {
-            this._renderFunction(t, d, func)
+            this._renderFunction(t, d, func);
             window.requestAnimationFrame(this._loop.bind(this));
         }
     }
@@ -98,13 +100,15 @@ export default class Core {
     _renderFunction(t, d, func) {
         const values = this.value.map(value => {
             const curValue = func(t, value.start, value.end - value.start, d);
-            return value.type === 'path' ? value.svg.getPointAtLength(curValue) : curValue;
-        })
+            return value.type === "path"
+                ? value.svg.getPointAtLength(curValue)
+                : curValue;
+        });
         this.renderFunction.apply(this, values);
     }
 
     _play() {
-        this.state = 'play';
+        this.state = "play";
         this.onPlay && this.onPlay.call(this);
 
         this.beginTime = Date.now();
@@ -113,19 +117,19 @@ export default class Core {
     }
 
     _end() {
-        this.state = 'end';
+        this.state = "end";
         this._renderEndState();
         this.onEnd && this.onEnd.call(this);
     }
 
     _stop(t) {
-        this.state = 'stop';
+        this.state = "stop";
         this._renderStopState(t);
         this.onStop && this.onStop.call(this);
     }
 
     _reset() {
-        this.state = 'init';
+        this.state = "init";
         this._renderInitState();
         this.onReset && this.onReset.call(this);
     }
@@ -135,19 +139,19 @@ export default class Core {
     }
 
     end() {
-        this.state === 'play' ? (this.state = 'end') : this._end();
+        this.state === "play" ? (this.state = "end") : this._end();
     }
 
     stop() {
-        if (this.state === 'play') {
-            this.state = 'stop';
+        if (this.state === "play") {
+            this.state = "stop";
         } else {
-            this.state = 'stop';
+            this.state = "stop";
             this.onStop && this.onStop();
         }
     }
 
     reset() {
-        this.state === 'play' ? (this.state = 'init') : this._reset();
+        this.state === "play" ? (this.state = "init") : this._reset();
     }
 }

@@ -40,7 +40,7 @@ class FrameAni {
 
     end() {
         this.queue.map(core => {
-            core._end();
+            core.end();
         });
     }
 }
