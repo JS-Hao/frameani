@@ -1,7 +1,7 @@
 import "./polyfill";
 import Core from "./core";
 
-class FrameAni {
+class Frameani {
     constructor(opt) {
         this.queue = [new Core(opt)];
     }
@@ -45,7 +45,7 @@ class FrameAni {
     }
 }
 
-FrameAni.path = function(path) {
+Frameani.path = function(path) {
     const pathSVG = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "path"
@@ -58,5 +58,5 @@ FrameAni.path = function(path) {
     };
 };
 
-export default FrameAni;
-export { FrameAni };
+export default Frameani;
+export { Frameani };

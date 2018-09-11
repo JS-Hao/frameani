@@ -1,6 +1,6 @@
-# frameAni.js
+# frameani.js
 
-frameAni.js is a high degree of freedom animation library pulled from the concrete realization of the animation. According to the given animation speed curve, it help you to complete the "frame-value" numerical calculation, and how to achieve the animation is decided by developers freely.
+frameani.js is a high degree of freedom animation library pulled from the concrete realization of the animation. According to the given animation speed curve, it help you to complete the "frame-value" numerical calculation, and how to achieve the animation is decided by developers freely.
 
 In addition, it also provides a series of methods for you to better organize and manage the animation queue, help you to make more complex animations, or even to achieve a combination of multiple animation.
 
@@ -20,7 +20,7 @@ In addition, it also provides a series of methods for you to better organize and
 
 ```javascript
 const ele = document.querySelector("#target");
-const frameAni = new FrameAni({
+const frameani = new Frameani({
   value: [0, 500],
   duration: 1000,
   timingFunction: "easeOut",
@@ -31,7 +31,7 @@ const frameAni = new FrameAni({
   onEnd: () => console.log("end! haha...")
 });
 
-frameAni.play();
+frameani.play();
 ```
 
 The parameters are set as follows:
@@ -50,7 +50,7 @@ The parameters are set as follows:
 
   ​
 
-Note that the `value` is a special parameter that defines both the start and end of the animation, frameAni will calculate the current value of current time progress, and return it as a parameter of the render function.
+Note that the `value` is a special parameter that defines both the start and end of the animation, frameani will calculate the current value of current time progress, and return it as a parameter of the render function.
 
 For example, to let the element pan right 300px within 3s in a steady state, when it reaches 2 seconds, the returned value is 200.
 
@@ -58,7 +58,7 @@ For example, to let the element pan right 300px within 3s in a steady state, whe
 
   ```javascript
   // the element is panned 300px to the right
-  const frameAni = new FrameAni({
+  const frameani = new Frameani({
     value: [0, 300],
     duration: 1000,
     render: function(value) {
@@ -67,11 +67,11 @@ For example, to let the element pan right 300px within 3s in a steady state, whe
   });
   ```
 
-- When value is a binary array（each one is an array of length 2），frameAni will calculate the current value of current time progress for each one (the length of the binary array can be infinitely expanded)
+- When value is a binary array（each one is an array of length 2），frameani will calculate the current value of current time progress for each one (the length of the binary array can be infinitely expanded)
 
   ```Javascript
   // the element is panned 300px and 500px to the right and down respectively.
-  const frameAni = new FrameAni({
+  const frameani = new Frameani({
     value: [[0, 300], [0, 500]],
     duration: 1000,
     render: function(value1, value2) {
@@ -80,11 +80,11 @@ For example, to let the element pan right 300px within 3s in a steady state, whe
   })
   ```
 
-- When value is a "path object" constructed by `FrameAni.path`, frameAni will get the current point from the given path of current time progress, to achieve coustom path animation.
+- When value is a "path object" constructed by `Frameani.path`, frameani will get the current point from the given path of current time progress, to achieve coustom path animation.
 
   ```javascript
-  const frameAni = new FrameAni({
-    value: FrameAni.path("M0 0L23 34L60 90Q32 46 23 12Q234 565 234 645Z"),
+  const frameani = new Frameani({
+    value: Frameani.path("M0 0L23 34L60 90Q32 46 23 12Q234 565 234 645Z"),
     duration: 1000,
     render: function(value1, value2) {
       ele.style.transform = `translate(${value1}px, ${value2}px)`;
@@ -101,7 +101,7 @@ If you want to trigger the next animation when an animation is finished，can us
 ```javascript
 const ele1 = document.getElementById("target1");
 const ele2 = document.getElementById("target2");
-const frameAni = new FrameAni({
+const frameani = new Frameani({
   target: document.getElementById("target1"),
   value: [0, 500],
   duration: 1000,
@@ -117,17 +117,17 @@ const frameAni = new FrameAni({
   }
 });
 
-frameAni.play();
+frameani.play();
 ```
 
 ​
 
 ## Custom path animation
 
-`FrameAni.path` can help you to achieve the more complex path animation.
+`Frameani.path` can help you to achieve the more complex path animation.
 
 ```javascript
-const frameAni = new FrameAni({
+const frameani = new Frameani({
   value: Aqueue.path("M0 0L23 34L60 90Q32 46 23 12Q234 565 234 645Z"),
   render: function(point) {
     ele.style.transform = `translate(${point.x}px,${point.y}px)`;
@@ -136,7 +136,7 @@ const frameAni = new FrameAni({
   duration: 7000
 });
 
-frameAni.play();
+frameani.play();
 ```
 
 Notice that the parameter of the render function has changed: the `point` is an object and it save the coordinates of the current point.
@@ -145,7 +145,7 @@ Notice that the parameter of the render function has changed: the `point` is an 
 
 ## Events
 
-frameAni support the events of `onPlay`, `onReset`, `onStop` and `onEnd`, the one thing you should do is pass them into the animation configuration:
+frameani support the events of `onPlay`, `onReset`, `onStop` and `onEnd`, the one thing you should do is pass them into the animation configuration:
 
 ```javascript
 const aq = new Aqueue({
