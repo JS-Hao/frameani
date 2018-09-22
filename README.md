@@ -1,4 +1,4 @@
-# frameani
+# Frameani
 
 Frameani is a highly free JavaScript animation library, it does care about how to create an animation by details, but will automatically calculate the motion value at different moments according to the animation-timing-function you provide, and how to render the animation is given to you to achieve.
 
