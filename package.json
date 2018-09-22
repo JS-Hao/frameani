@@ -1,7 +1,7 @@
 {
   "name": "frameani",
   "version": "1.0.2",
-  "description": "frameani.js is an simple library for creating magic animation. It breaks away from the CSS and JS animation's constraints. It can help you to create more complex animation, and organize them more easier, even achieve multiple animation combinations.",
+  "description": "Frameani is a highly free JavaScript animation library, it does care about how to create an animation by details, but will automatically calculate the motion value at different moments according to the animation-timing-function you provide, and how to render the animation is given to you to achieve.",
   "main": "src/index.js",
   "scripts": {
     "dev": "webpack-dev-server --devtool eval-source-map --progress --colors --hot --inline --content-base ./dist",
