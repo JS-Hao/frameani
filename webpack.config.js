@@ -4,7 +4,7 @@ const webpack = require("webpack");
 module.exports = {
     entry: "./src/index.js",
     output: {
-        filename: "frameAni.min.js",
+        filename: "frameani.min.js",
         path: path.resolve(__dirname, "dist"),
         libraryTarget: "umd"
     },

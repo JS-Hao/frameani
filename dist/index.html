@@ -63,17 +63,17 @@
                 onReset: () => console.log('reset'),
                 onStop: () => console.log('stop')
             })
-            // .to({
-            //     value: [
-            //         [500, 800],
-            //         [0, 40],
-            //         [503, 523]
-            //     ],
-            //     render: function (value1, value2, value3) {
-            //         box1.style.transform = `translateX(${ value1 }px)`;
-            //         box2.style.transform = `translate(${ value2 }px,${ value3 }px)`;
-            //     },
-            // });
+            .to({
+                value: [
+                    [500, 800],
+                    [0, 40],
+                    [503, 523]
+                ],
+                render: function (value1, value2, value3) {
+                    box1.style.transform = `translateX(${ value1 }px)`;
+                    box2.style.transform = `translate(${ value2 }px,${ value3 }px)`;
+                },
+            });
 
 
         el('#start').onclick = () => frameani.play();
