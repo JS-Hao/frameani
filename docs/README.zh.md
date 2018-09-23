@@ -126,14 +126,38 @@ const frameani = new Frameani({
     ele1.style.transform = `translateX(${value}px)`;
   }
 }).to({
-  value: [-100, 300],
+  value: [0, 300],
   render: function(value) {
-    ele2.style.transform = `translateX(${value}px)`;
+    ele2.style.transform = `translateY(${value}px)`;
   }
 });
 
 frameani.play();
 ```
+
+#### frameani.with(option)
+
+* **option** 与Frameani实例化的参数格式保持一致
+* returns frameani自身
+
+如果你希望在播放一个动画的同时播放另一个，你可以使用`with`方法
+
+```javascript
+const ele1 = document.getElementById("target1");
+const ele2 = document.getElementById("target2");
+const frameani = new Frameani({
+  value: [0, 500],
+  duration: 1000,
+  timingFunction: "easeOut",
+  render: function(value) {
+    ele1.style.transform = `translateX(${value}px)`;
+  }
+}).width({
+  value: [0, 300],
+  render: function(value) {
+    ele2.style.transform = `translateY(${value}px)`;
+  }
+});
 
 #### Frameani.path(string)
 

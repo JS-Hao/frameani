@@ -23,31 +23,17 @@ class Frameani {
   }
 
   async play() {
+    this.reset();
     this._state = "play";
+
     for (let i = 0; i < this._queueArr.length; i++) {
-      console.log(this._state);
       if (this._state !== "play") {
         break;
       }
       await this._queueArr[i].play();
-      console.log("卡西莫多");
     }
   }
 
-  // play() {
-  //   const queue = this.queue;
-  //   this.queue.map((core, index) => {
-  //     if (queue[index + 1]) {
-  //       const callback = core.onEnd;
-  //       core.onEnd = () => {
-  //         callback && callback();
-  //         queue[index + 1].play();
-  //         core.onEnd = callback;
-  //       };
-  //     }
-  //   });
-  //   this.queue.length && this.queue[0].play();
-  // }
   reset() {
     this._state = "reset";
     this._queueArr
@@ -56,33 +42,15 @@ class Frameani {
       .forEach(q => q.reset());
   }
 
-  // reset() {
-  //   for (let i = this.queue.length - 1; i >= 0; i--) {
-  //     this.queue[i].reset();
-  //   }
-  // }
   stop() {
     this._state = "stop";
     this._queueArr.forEach(q => q.stop());
   }
-  // stop() {
-  //   this.queue.map(core => {
-  //     core.stop();
-  //   });
-  // }
+
   end() {
     this._state = "end";
-    this._queueArr.forEach((q, i) => {
-      console.log(`开始启动第${i}个end`);
-      q.end();
-      console.log(`已完成第${i}个end`);
-    });
+    this._queueArr.forEach(q => q.end());
   }
-  // end() {
-  //   this.queue.map(core => {
-  //     core.end();
-  //   });
-  // }
 }
 
 Frameani.path = function(path) {

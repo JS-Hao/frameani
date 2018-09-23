@@ -127,14 +127,38 @@ const frameani = new Frameani({
     ele1.style.transform = `translateX(${value}px)`;
   }
 }).to({
-  value: [-100, 300],
+  value: [0, 300],
   render: function(value) {
-    ele2.style.transform = `translateX(${value}px)`;
+    ele2.style.transform = `translateY(${value}px)`;
   }
 });
 
 frameani.play();
 ```
+
+#### frameani.with(option)
+
+* **option** consistent with the parameter format of the instantiated Frameani
+* returns itself
+
+If you want to play another one while playing an animation, you can use the `with` method
+
+```javascript
+const ele1 = document.getElementById("target1");
+const ele2 = document.getElementById("target2");
+const frameani = new Frameani({
+  value: [0, 500],
+  duration: 1000,
+  timingFunction: "easeOut",
+  render: function(value) {
+    ele1.style.transform = `translateX(${value}px)`;
+  }
+}).width({
+  value: [0, 300],
+  render: function(value) {
+    ele2.style.transform = `translateY(${value}px)`;
+  }
+});
 
 #### Frameani.path(string)
 * **string** svg path string

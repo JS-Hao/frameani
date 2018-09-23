@@ -3,7 +3,7 @@ import Tween from "./tween";
 export default class Core {
   constructor(opt) {
     this._init(opt);
-    this.state = "init";
+    this.state = "reset";
   }
 
   _init(opt) {
@@ -13,6 +13,7 @@ export default class Core {
     this.timingFunction = opt.timingFunction || "linear";
     this.renderFunction = opt.render || this._defaultFunc;
     this.animationFrameId = undefined;
+    this.t = 0;
 
     /* Events */
     this.onPlay = opt.onPlay;
@@ -86,11 +87,13 @@ export default class Core {
       d = this.duration,
       func = Tween[this.timingFunction] || Tween["linear"];
 
+    this.t = t;
+
     if (this.state === "end" || t >= d) {
       this._end();
     } else if (this.state === "stop") {
       this._stop(t);
-    } else if (this.state === "init") {
+    } else if (this.state === "reset") {
       this._reset();
     } else {
       this._renderFunction(t, d, func);
@@ -133,32 +136,40 @@ export default class Core {
   }
 
   _reset() {
-    this.state = "init";
+    this.state = "reset";
     this._renderInitState();
     this.onReset && this.onReset.call(this);
   }
 
+  getState() {
+    return this.state;
+  }
+
+  setState(state) {
+    this.state = state;
+  }
+
   play() {
+    this._stopLoop();
     this._play();
   }
 
   end() {
     this._stopLoop();
-    // this.state === "play" && this._stopLoop();
     this._end();
-    // this.state === "play" ? (this.state = "end") : this._end();
   }
 
   stop() {
-    if (this.state === "play") {
-      this.state = "stop";
+    if (this.state === 'play') {
+      this._stopLoop();
+      this._stop(this.t);
     } else {
-      this.state = "stop";
-      this.onStop && this.onStop();
+      this.state = 'stop';
     }
   }
 
   reset() {
-    this.state === "play" ? (this.state = "init") : this._reset();
+    this._stopLoop();
+    this._reset();
   }
 }

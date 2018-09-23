@@ -20,13 +20,11 @@ class Queue {
 
   play() {
     const fnArr = this._queue.map(f => {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         const cb = f.onEnd;
         f.onEnd = () => {
-          console.log("我在里面呀");
           cb && cb();
           f.onEnd = cb;
-          console.log("即将resolve");
           resolve();
         };
 
@@ -37,20 +35,26 @@ class Queue {
     return Promise.all(fnArr);
   }
 
-  // play() {
-  //   this._queue.forEach(f => f.play());
-  // }
-
   end() {
-    this._queue.forEach(f => f.end());
+    this._queue.forEach(f => {
+      f.getState() !== 'end' && f.end();
+    });
   }
 
   reset() {
-    this._queue.forEach(f => f.reset());
+    this._queue.forEach(f => {
+      f.getState() !== 'reset' && f.reset();
+    });
   }
 
   stop() {
-    this._queue.forEach(f => f.stop());
+    this._queue.forEach(f => {
+      f.getState() !== 'stop' && f.stop();
+    });
+  }
+
+  forEach(fn) {
+    this._queue.forEach(fn);
   }
 }
 export default Queue;
