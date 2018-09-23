@@ -48,21 +48,55 @@
         const box2 = el('#box2');
 
         const frameani = new Frameani({
-                value: [
-                    [0, 500],
-                    [0, 500]
-                ],
-                render: function (value1, value2) {
-                    box1.style.transform = `translate(${ value1 }px,${ value2 }px)`;
-                    box2.style.transform = `translateY(${ value2 }px)`;
-                },
-                timingFunction: 'easeOut',
-                duration: 7000,
-                onEnd: () => console.log('end'),
-                onPlay: () => console.log('begin'),
-                onReset: () => console.log('reset'),
-                onStop: () => console.log('stop')
-            })
+          value: [0, 500],
+          render: function(value) {
+            box1.style.transform = `translateX(${ value }px)`;
+          },
+          duration: 3000,
+          onEnd: () => console.log('box1 end'),
+          // onPlay: () => console.log('box1 begin'),
+          // onReset: () => console.log('box1 reset'),
+          // onStop: () => console.log('box1 stop')
+        })
+        .with({
+          value: [0, 300],
+          render: function(value) {
+            box2.style.transform = `translateY(${ value }px)`;
+          },
+          duration: 1000,
+          onEnd: () => console.log('box2 end'),
+          // onPlay: () => console.log('box2 begin'),
+          // onReset: () => console.log('box2 reset'),
+          // onStop: () => console.log('box2 stop')
+        }).to({
+          value: [0, 400],
+          render: function(value) {
+            box1.style.transform = `translateY(${ value }px)`;
+            box2.style.transform = `translateY(${ value }px)`;
+          },
+          duration: 2000,
+          onEnd: () => console.log('end'),
+          // onPlay: () => console.log('begin'),
+          // onReset: () => console.log('reset'),
+          // onStop: () => console.log('stop')
+        })
+
+        // const frameani = new Frameani({
+        //         value: [
+        //             [0, 500],
+        //             [0, 500]
+        //         ],
+        //         render: function (value1, value2) {
+        //             box1.style.transform = `translate(${ value1 }px,${ value2 }px)`;
+        //             box2.style.transform = `translateY(${ value2 }px)`;
+        //         },
+        //         timingFunction: 'easeOut',
+        //         duration: 7000,
+        //         onEnd: () => console.log('end'),
+        //         onPlay: () => console.log('begin'),
+        //         onReset: () => console.log('reset'),
+        //         onStop: () => console.log('stop')
+        //     })
             // .to({
             //     value: [
             //         [500, 800],
