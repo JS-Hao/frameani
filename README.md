@@ -1,18 +1,20 @@
-# frameani
+# Frameani
 
-frameani 是一个高度自由的动画帧值计算库，它并不关注动画的具体实现细节，而会根据你提供的速度曲线，帮你自动计算出不同时刻的运动值，而具体如何渲染动画则交给你实现（例如你想实现一个球体的落体运动，选择适合的速度曲线后，它便会帮助你计算出每一帧的球体下落位置）
+Frameani is a highly free JavaScript animation library, it does care about how to create an animation by details, but will automatically calculate the motion value at different moments according to the animation-timing-function you provide, and how to render the animation is given to you to achieve.
 
-此外，它还为您提供了一系列方法，可以更好地组织和管理动画队列，帮助您制作更复杂的动画，甚至实现多个动画的组合
+For example, if you want to achieve a falling body motion of a sphere, after selecting the appropriate animation-timing-function, it will help you calculate the falling position for each frame
 
-- [English Readme](https://github.com/JS-Hao/frameani/tree/master/docs/README.en.md)
+In addition, it provides you with a series of methods to better organize and manage animation queues, to help you create more complex animations, and even to combine multiple animations.
 
-## 安装
+- [中文 Readme](https://github.com/JS-Hao/frameani/tree/master/docs/README.zh.md)
+
+## Installing
 
 ```
 npm i frameani
 ```
 
-## 快速开始
+## Getting Started
 
 ```javascript
 import Frameani from "frameani";
@@ -33,27 +35,27 @@ const frameani = new Frameani({
 frameani.play();
 ```
 
-### 参数说明
+### Parameter
 
 | name           | necessary | type     | meaning            | default  |
 | -------------- | --------- | -------- | ------------------ | -------- |
-| duration       | false     | number   | 动画运行时间       | 1000(ms) |
-| value          | true      | array    | 运动起始、终点值   | /        |
-| render         | true      | function | 渲染函数           | /        |
-| timingFunction | false     | string   | 速度曲线           | linear   |
-| onPlay         | false     | function | 运动事件的回调函数 | /        |
-| onStop         | false     | function | 暂停事件的回调函数 | /        |
-| onEnd          | false     | function | 结束事件的回调函数 | /        |
-| onReset        | false     | function | 重置事件的回调函数 | /        |
+| duration       | false     | number   | animation runtime  | 1000(ms) |
+| value          | true      | array    | start and end point values  | /        |
+| render         | true      | function | render callback function           | /        |
+| timingFunction | false     | string   | animation-timing-function | linear   |
+| onPlay         | false     | function | callback function of play event | /        |
+| onStop         | false     | function | callback function of stop event | /        |
+| onEnd          | false     | function | callback function of end event | /        |
+| onReset        | false     | function | callback function of reset event | /        |
 
-请注意，`value`是一个特殊参数，它定义了动画的起始和终点值，frameani 将计算当前时间进度的运动值，并将其作为渲染函数的参数返回
+Note that `value` is a special parameter that defines the start and end values of the animation, and frameani will calculate the motion value of the current time progress and return it as a parameter to the render callback function.
 
-例如，要使元素在匀速状态下在 3s 内向右平移 300px，当它达到 2 秒时，`render`回调函数中的传参值为 200
+For example, to make an element moving 300px to the right within 3s at a constant speed, when it reaches 2 seconds, the value of the parameter in the `render` callback function is 200.
 
-- 当`value`是长度为 2 的一元数组时，第一个是起始值，第二个是结束值
+- When the `value` is an array of two numbers, the first number is the starting value and the next one is the ending value.
 
   ```javascript
-  // 元素向右平移300px
+  // Element moves 300px to the right
   const frameani = new Frameani({
     value: [0, 300],
     duration: 1000,
@@ -63,10 +65,10 @@ frameani.play();
   });
   ```
 
-- 当`value`是二维数组（每项均是长度为 2 的数组）时，frameani 将计算每一项数组的当前时间进度的运动值（二维数组的长度可以无限扩展）
+- When `value` is a two-dimensional array (each item is an array of two numbers), frameani will calculate the motion value of the current time progress for each array (the length of the two-dimensional array can be expanded infinitely).
 
   ```Javascript
-  // 元素分别向右、向下平移300px、500px
+  // Element moves 300px to the right and 500px to the down at the same time
   const frameani = new Frameani({
     value: [[0, 300], [0, 500]],
     duration: 1000,
@@ -76,7 +78,7 @@ frameani.play();
   })
   ```
 
-- 当 value 是由`Frameani.path`构造的路径对象时，frameani 会根据给定路径，获取当前时间进度的点坐标，以实现自定义路径动画。
+- When `value` is a object constructed by `Frameani.path`, frameani will get the point coordinates of the current time progress according to the given path to implement the custom path animation.
 
   ```javascript
   const frameani = new Frameani({
@@ -90,44 +92,34 @@ frameani.play();
 
 ## API
 
-### 修改动画状态
+#### frameani.play()
 
-| 方法  |   作用   |
-| :---: | :------: |
-| play  | 运行动画 |
-| stop  | 暂停动画 |
-|  end  | 结束动画 |
-| reset | 重置动画 |
+play animation
 
-```javascript
-// 开始
-frameani.play();
+#### frameani.stop()
 
-// 暂停
-setTimeout(() => {
-  frameani.stop();
-}, 2000);
+stop animation
 
-// 结束
-setTimeout(() => {
-  frameani.end();
-}, 4000);
+#### frameani.end()
 
-// 重置
-setTimeout(() => {
-  frameani.reset();
-}, 6000);
-```
+end animation
 
-### to
+#### frameani.reset()
 
-如果要在动画结束时触发下一个动画，可以使用`to`方法。 它支持链式调用
+reset animation
+
+#### frameani.to(option)
+
+* **option** consistent with the parameter format of the instantiated Frameani
+* returns itself
+
+If you want to trigger a new animation at the end of the lastest animation, you can use the `to` method. It supports chained calls. *Note that when the `reset`, `stop` or `end` method is called, all animations saved in the queue added via `to` will also be reset/paused/end*
+
 
 ```javascript
 const ele1 = document.getElementById("target1");
 const ele2 = document.getElementById("target2");
 const frameani = new Frameani({
-  target: document.getElementById("target1"),
   value: [0, 500],
   duration: 1000,
   timingFunction: "easeOut",
@@ -135,7 +127,6 @@ const frameani = new Frameani({
     ele1.style.transform = `translateX(${value}px)`;
   }
 }).to({
-  target: document.getElementById("target2"),
   value: [-100, 300],
   render: function(value) {
     ele2.style.transform = `translateX(${value}px)`;
@@ -145,11 +136,11 @@ const frameani = new Frameani({
 frameani.play();
 ```
 
-_请注意，当调用`reset`，`stop`和`end`时，通过`to`添加的队列中保存的所有动画也将被重置/暂停/结束_
+#### Frameani.path(string)
+* **string** svg path string
+* returns object
 
-### 自定义路径动画
-
-`Frameani.path`可以帮助你实现更复杂的自定义路径动画
+It can help you to achieve more complex custom path animation. *Note that in this case the argument to the `render` function will be modified: `point` is an object that saves the coordinates of the current point.*
 
 ```javascript
 const frameani = new Frameani({
@@ -164,4 +155,4 @@ const frameani = new Frameani({
 frameani.play();
 ```
 
-请注意，在这种情况下`render`函数的传参将被修改：`point`是一个对象，它保存当前点的坐标
+
