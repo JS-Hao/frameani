@@ -158,6 +158,7 @@ const frameani = new Frameani({
     ele2.style.transform = `translateY(${value}px)`;
   }
 });
+```
 
 #### Frameani.path(string)
 
