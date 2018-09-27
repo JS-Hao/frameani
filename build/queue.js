@@ -12,26 +12,26 @@ var Queue = function () {
   }
 
   _createClass(Queue, [{
-    key: 'add',
+    key: "add",
     value: function add(frameani) {
       if (frameani instanceof Core) {
         this._queue.push(frameani);
       }
     }
   }, {
-    key: 'delete',
+    key: "delete",
     value: function _delete(frameani) {
       this._queue = this._queue.filter(function (f) {
         return f !== frameani;
       });
     }
   }, {
-    key: 'deleteAll',
+    key: "deleteAll",
     value: function deleteAll() {
       this._queue = [];
     }
   }, {
-    key: 'play',
+    key: "play",
     value: function play() {
       var fnArr = this._queue.map(function (f) {
         return new Promise(function (resolve) {
@@ -49,28 +49,28 @@ var Queue = function () {
       return Promise.all(fnArr);
     }
   }, {
-    key: 'end',
+    key: "end",
     value: function end() {
       this._queue.forEach(function (f) {
-        f.getState() !== 'end' && f.end();
+        f.getState() !== "end" && f.end();
       });
     }
   }, {
-    key: 'reset',
+    key: "reset",
     value: function reset() {
       this._queue.forEach(function (f) {
-        f.getState() !== 'reset' && f.reset();
+        f.getState() !== "reset" && f.reset();
       });
     }
   }, {
-    key: 'stop',
+    key: "stop",
     value: function stop() {
       this._queue.forEach(function (f) {
-        f.getState() !== 'stop' && f.stop();
+        f.getState() !== "stop" && f.stop();
       });
     }
   }, {
-    key: 'forEach',
+    key: "forEach",
     value: function forEach(fn) {
       this._queue.forEach(fn);
     }

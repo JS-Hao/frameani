@@ -5,6 +5,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 import Tween from "./tween";
+import frame from "./frame";
 
 var Core = function () {
   function Core(opt) {
@@ -27,8 +28,10 @@ var Core = function () {
         _this._reset();
       } else {
         _this._renderFunction(t, d, func);
-        _this.animationFrameId = window.requestAnimationFrame(_this._loop);
+        return true;
       }
+
+      return false;
     };
 
     this._init(opt);
@@ -121,11 +124,6 @@ var Core = function () {
       this._renderFunction(t, d, func);
     }
   }, {
-    key: "_stopLoop",
-    value: function _stopLoop() {
-      window.cancelAnimationFrame(this.animationFrameId);
-    }
-  }, {
     key: "_renderFunction",
     value: function _renderFunction(t, d, func) {
       var values = this.value.map(function (value) {
@@ -141,7 +139,17 @@ var Core = function () {
       this.onPlay && this.onPlay.call(this);
 
       this.beginTime = Date.now();
-      this.animationFrameId = window.requestAnimationFrame(this._loop);
+      this._runLoop();
+    }
+  }, {
+    key: "_runLoop",
+    value: function _runLoop() {
+      frame.add(this._loop);
+    }
+  }, {
+    key: "_stopLoop",
+    value: function _stopLoop() {
+      frame.delete(this._loop);
     }
   }, {
     key: "_end",
@@ -189,11 +197,11 @@ var Core = function () {
   }, {
     key: "stop",
     value: function stop() {
-      if (this.state === 'play') {
+      if (this.state === "play") {
         this._stopLoop();
         this._stop(this.t);
       } else {
-        this.state = 'stop';
+        this.state = "stop";
       }
     }
   }, {
