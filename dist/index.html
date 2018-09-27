@@ -15,6 +15,14 @@
             width: 100px;
             height: 100px;
         }
+        /*div {
+          width: 10px;
+          height: 10px;
+          background: red;
+          position: absolute;
+          left: 0;
+          top: 0;
+        }*/
         button {
             margin: 10px;
             padding: 4px;
@@ -41,50 +49,84 @@
     <button id="reset">RESET</button>
 
     <script type="text/javascript" src="frameani.min.js"></script>
+    <!-- <script type="text/javascript">
+      const el = (name) => document.querySelector(name);
+      let frameani = {};
+
+      for (let i = 0; i < 900; i++) {
+        const div = document.createElement('div');
+        document.body.appendChild(div);
+
+        if (i === 0) {
+          frameani = new Frameani({
+            value: [[100 * Math.random(), 900 * Math.random()], [100 * Math.random(), 900 * Math.random()]],
+            render: (value1, value2) => {
+              div.style.transform = `translate(${ value1 }px, ${ value2 }px)`;
+            },
+            duration: 3000,
+          });
+        } else {
+          frameani.with({
+            value: [[100 * Math.random(), 900 * Math.random()], [100 * Math.random(), 900 * Math.random()]],
+            render: (value1, value2) => {
+              div.style.transform = `translate(${ value1 }px, ${ value2 }px)`;
+            },
+            duration: 3000,
+          })
+        }
+      }
+
+      el('#start').onclick = () => frameani.play();
+      el('#end').onclick = () => frameani.end();
+      el('#stop').onclick = () => frameani.stop()
+      el('#reset').onclick = () => frameani.reset()
+
+    </script> -->
     <script type="text/javascript">
-        const el = (name) => document.querySelector(name);
-        const div1 = el('#div1');
-        const div2 = el('#div2');
+      const el = (name) => document.querySelector(name);
+      const div1 = el('#div1');
+      const div2 = el('#div2');
 
-        const frameani = new Frameani({
-          value: [0, 500],
-          render: function(value) {
-            div1.style.transform = `translateX(${ value }px)`;
-          },
-          duration: 3000,
-          onEnd: () => console.log('end div1'),
-          onPlay: () => console.log('play div1'),
-          onReset: () => console.log('reset div1'),
-          onStop: () => console.log('stop div1')
-        })
-        .with({
-          value: [0, 300],
-          render: function(value) {
-            div2.style.transform = `translateY(${ value }px)`;
-          },
-          duration: 1000,
-          onEnd: () => console.log('end div2'),
-          onPlay: () => console.log('play div2'),
-          onReset: () => console.log('reset div2'),
-          onStop: () => console.log('stop div2')
-        }).to({
-          value: [0, 400],
-          render: function(value) {
-            div1.style.transform = `translateY(${ value }px)`;
-            div2.style.transform = `translateY(${ value }px)`;
-          },
-          duration: 2000,
-          onEnd: () => console.log('both end'),
-          onPlay: () => console.log('both play'),
-          onReset: () => console.log('both reset'),
-          onStop: () => console.log('both stop')
-        })
+      const frameani = new Frameani({
+        value: [0, 500],
+        render: function(value) {
+          div1.style.transform = `translateX(${ value }px)`;
+        },
+        duration: 3000,
+        onEnd: () => console.log('end div1'),
+        onPlay: () => console.log('play div1'),
+        onReset: () => console.log('reset div1'),
+        onStop: () => console.log('stop div1')
+      })
+      .with({
+        value: [0, 300],
+        render: function(value) {
+          div2.style.transform = `translateY(${ value }px)`;
+        },
+        duration: 1000,
+        onEnd: () => console.log('end div2'),
+        onPlay: () => console.log('play div2'),
+        onReset: () => console.log('reset div2'),
+        onStop: () => console.log('stop div2')
+      })
+      .to({
+        value: [0, 400],
+        render: function(value) {
+          div1.style.transform = `translateY(${ value }px)`;
+          div2.style.transform = `translateY(${ value }px)`;
+        },
+        duration: 2000,
+        onEnd: () => console.log('both end'),
+        onPlay: () => console.log('both play'),
+        onReset: () => console.log('both reset'),
+        onStop: () => console.log('both stop')
+      })
 
 
-        el('#start').onclick = () => frameani.play();
-        el('#end').onclick = () => frameani.end();
-        el('#stop').onclick = () => frameani.stop()
-        el('#reset').onclick = () => frameani.reset()
+      el('#start').onclick = () => frameani.play();
+      el('#end').onclick = () => frameani.end();
+      el('#stop').onclick = () => frameani.stop()
+      el('#reset').onclick = () => frameani.reset()
     </script>
 </body>
 

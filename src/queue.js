@@ -37,19 +37,19 @@ class Queue {
 
   end() {
     this._queue.forEach(f => {
-      f.getState() !== 'end' && f.end();
+      f.getState() !== "end" && f.end();
     });
   }
 
   reset() {
     this._queue.forEach(f => {
-      f.getState() !== 'reset' && f.reset();
+      f.getState() !== "reset" && f.reset();
     });
   }
 
   stop() {
     this._queue.forEach(f => {
-      f.getState() !== 'stop' && f.stop();
+      f.getState() !== "stop" && f.stop();
     });
   }
 

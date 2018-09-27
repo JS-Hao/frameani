@@ -1,4 +1,5 @@
 import Tween from "./tween";
+import frame from "./frame";
 
 export default class Core {
   constructor(opt) {
@@ -97,13 +98,11 @@ export default class Core {
       this._reset();
     } else {
       this._renderFunction(t, d, func);
-      this.animationFrameId = window.requestAnimationFrame(this._loop);
+      return true;
     }
-  };
 
-  _stopLoop() {
-    window.cancelAnimationFrame(this.animationFrameId);
-  }
+    return false;
+  };
 
   _renderFunction(t, d, func) {
     const values = this.value.map(value => {
@@ -120,7 +119,15 @@ export default class Core {
     this.onPlay && this.onPlay.call(this);
 
     this.beginTime = Date.now();
-    this.animationFrameId = window.requestAnimationFrame(this._loop);
+    this._runLoop();
+  }
+
+  _runLoop() {
+    frame.add(this._loop);
+  }
+
+  _stopLoop() {
+    frame.delete(this._loop);
   }
 
   _end() {
@@ -160,11 +167,11 @@ export default class Core {
   }
 
   stop() {
-    if (this.state === 'play') {
+    if (this.state === "play") {
       this._stopLoop();
       this._stop(this.t);
     } else {
-      this.state = 'stop';
+      this.state = "stop";
     }
   }
 
