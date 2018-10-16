@@ -10,7 +10,7 @@ export default class Core {
   _init(opt) {
     this.target = opt.target;
     this._initValue(opt.value);
-    this.duration = opt.duration || 1000;
+    this.duration = opt.duration >= 0 ? opt.duration : 1000;
     this.timingFunction = opt.timingFunction || "linear";
     this.renderFunction = opt.render || this._defaultFunc;
     this.animationFrameId = undefined;

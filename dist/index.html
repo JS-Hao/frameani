@@ -49,39 +49,6 @@
     <button id="reset">RESET</button>
 
     <script type="text/javascript" src="frameani.min.js"></script>
-    <!-- <script type="text/javascript">
-      const el = (name) => document.querySelector(name);
-      let frameani = {};
-
-      for (let i = 0; i < 900; i++) {
-        const div = document.createElement('div');
-        document.body.appendChild(div);
-
-        if (i === 0) {
-          frameani = new Frameani({
-            value: [[100 * Math.random(), 900 * Math.random()], [100 * Math.random(), 900 * Math.random()]],
-            render: (value1, value2) => {
-              div.style.transform = `translate(${ value1 }px, ${ value2 }px)`;
-            },
-            duration: 3000,
-          });
-        } else {
-          frameani.with({
-            value: [[100 * Math.random(), 900 * Math.random()], [100 * Math.random(), 900 * Math.random()]],
-            render: (value1, value2) => {
-              div.style.transform = `translate(${ value1 }px, ${ value2 }px)`;
-            },
-            duration: 3000,
-          })
-        }
-      }
-
-      el('#start').onclick = () => frameani.play();
-      el('#end').onclick = () => frameani.end();
-      el('#stop').onclick = () => frameani.stop()
-      el('#reset').onclick = () => frameani.reset()
-
-    </script> -->
     <script type="text/javascript">
       const el = (name) => document.querySelector(name);
       const div1 = el('#div1');

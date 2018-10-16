@@ -31,7 +31,13 @@
     "type": "git",
     "url": "git+https://github.com/JS-Hao/timeline.git"
   },
-  "keywords": ["animation", "frame", "css", "canvas", "dom"],
+  "keywords": [
+    "animation",
+    "frame",
+    "css",
+    "canvas",
+    "dom"
+  ],
   "bugs": {
     "url": "https://github.com/JS-Hao/timeline/issues"
   },
