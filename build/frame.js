@@ -9,9 +9,8 @@ var Frame = function () {
     _classCallCheck(this, Frame);
 
     this._loop = function () {
-      _this.funcQueue = _this.funcQueue.filter(function (f) {
-        return f();
-      });
+      _this._filter();
+
       if (_this.funcQueue.length > 0) {
         _this.frameId = window.requestAnimationFrame(_this._loop);
       } else {
@@ -30,6 +29,17 @@ var Frame = function () {
       this._loop();
     }
   }, {
+    key: "_filter",
+    value: function _filter() {
+      var newQueue = [];
+      for (var i = 0; i < this.funcQueue.length; i++) {
+        var f = this.funcQueue[i];
+        var flag = f();
+        flag && newQueue.push(f);
+      }
+      this.funcQueue = newQueue;
+    }
+  }, {
     key: "add",
     value: function add(f) {
       this.funcQueue.push(f);
@@ -44,6 +54,10 @@ var Frame = function () {
       this.funcQueue = this.funcQueue.filter(function (i) {
         return i !== f;
       });
+      if (this.funcQueue.length === 0) {
+        window.cancelAnimationFrame(this.frameId);
+        this.isRun = false;
+      }
     }
   }]);
 
