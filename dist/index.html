@@ -54,39 +54,65 @@
       const div1 = el('#div1');
       const div2 = el('#div2');
 
+      // const frameani = new Frameani({
+      //   value: [0, 500],
+      //   render: function(value) {
+      //     div1.style.transform = `translateX(${ value }px)`;
+      //   },
+      //   duration: 3000,
+      //   onEnd: () => console.log('end div1'),
+      //   onPlay: () => console.log('play div1'),
+      //   onReset: () => console.log('reset div1'),
+      //   onStop: () => console.log('stop div1')
+      // })
+      // .with({
+      //   value: [0, 300],
+      //   render: function(value) {
+      //     div2.style.transform = `translateY(${ value }px)`;
+      //   },
+      //   duration: 1000,
+      //   onEnd: () => console.log('end div2'),
+      //   onPlay: () => console.log('play div2'),
+      //   onReset: () => console.log('reset div2'),
+      //   onStop: () => console.log('stop div2')
+      // })
+      // .to({
+      //   value: [0, 400],
+      //   render: function(value) {
+      //     div1.style.transform = `translateY(${ value }px)`;
+      //     div2.style.transform = `translateY(${ value }px)`;
+      //   },
+      //   duration: 2000,
+      //   onEnd: () => console.log('both end'),
+      //   onPlay: () => console.log('both play'),
+      //   onReset: () => console.log('both reset'),
+      //   onStop: () => console.log('both stop')
+      // })
       const frameani = new Frameani({
-        value: [0, 500],
-        render: function(value) {
-          div1.style.transform = `translateX(${ value }px)`;
-        },
-        duration: 3000,
-        onEnd: () => console.log('end div1'),
-        onPlay: () => console.log('play div1'),
-        onReset: () => console.log('reset div1'),
-        onStop: () => console.log('stop div1')
-      })
-      .with({
-        value: [0, 300],
-        render: function(value) {
-          div2.style.transform = `translateY(${ value }px)`;
-        },
-        duration: 1000,
-        onEnd: () => console.log('end div2'),
-        onPlay: () => console.log('play div2'),
-        onReset: () => console.log('reset div2'),
-        onStop: () => console.log('stop div2')
-      })
-      .to({
-        value: [0, 400],
-        render: function(value) {
+        value: [0, 100],
+        render: value => {
           div1.style.transform = `translateY(${ value }px)`;
-          div2.style.transform = `translateY(${ value }px)`;
         },
-        duration: 2000,
-        onEnd: () => console.log('both end'),
-        onPlay: () => console.log('both play'),
-        onReset: () => console.log('both reset'),
-        onStop: () => console.log('both stop')
+      }).to({
+        value: [0, 100],
+        render: value => {
+          div1.style.transform = `translateX(${ value }px)`;
+        }
+      }).to({
+        value: [0, 100],
+        render: value => {
+          div1.style.transform = `translate(${ value }px, ${ value }px)`;
+        },
+        onEnd: () => {
+          console.log('吃屎啊你');
+          const frameani2 = new Frameani({
+            value: [0, 100],
+            render: value => {
+              div2.style.transform = `translate(${ value }px, ${ value }px)`;
+            }
+          })
+          frameani2.play();
+        }
       })
 
 

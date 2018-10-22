@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --devtool eval-source-map --progress --colors --hot --inline --content-base ./dist",
     "build": "babel src --out-dir build",
+    "dist": "webpack",
     "test": "jest"
   },
   "author": "JS-HAO",
