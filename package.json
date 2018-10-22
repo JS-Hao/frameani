@@ -36,7 +36,7 @@
   "bugs": {
     "url": "https://github.com/JS-Hao/timeline/issues"
   },
-  "homepage": ".",
+  "homepage": "https://github.com/JS-Hao/timeline#readme",
   "dependencies": {
     "babel-polyfill": "^6.26.0"
   }
