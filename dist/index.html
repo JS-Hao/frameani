@@ -122,6 +122,8 @@
         onStop: () => console.log('both stop')
       })
 
+      console.log(frameani.getQueue());
+
 
       el('#start').onclick = () => frameani.play();
       el('#end').onclick = () => frameani.end();
