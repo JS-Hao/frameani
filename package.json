@@ -1,6 +1,6 @@
 {
   "name": "frameani",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Frameani is a highly free JavaScript animation library, it does care about how to create an animation by details, but will automatically calculate the motion value at different moments according to the animation-timing-function you provide, and how to render the animation is given to you to achieve.",
   "main": "build/index.js",
   "scripts": {
@@ -36,8 +36,5 @@
   "bugs": {
     "url": "https://github.com/JS-Hao/timeline/issues"
   },
-  "homepage": ".",
-  "dependencies": {
-    "babel-polyfill": "^6.26.0"
-  }
+  "homepage": "."
 }

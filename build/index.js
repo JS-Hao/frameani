@@ -4,7 +4,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-import "babel-polyfill";
 import "./polyfill";
 import Core from "./core";
 import Queue from "./queue";

@@ -1,4 +1,3 @@
-import "babel-polyfill";
 import "./polyfill";
 import Core from "./core";
 import Queue from "./queue";
