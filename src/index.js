@@ -21,6 +21,10 @@ class Frameani {
     return this;
   }
 
+  getQueue() {
+    return this._queueArr;
+  }
+
   async play() {
     this.reset();
     this._state = "play";
